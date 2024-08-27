@@ -2,14 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder} from "@angular/forms";
 import {ContactsService} from "../contacts/contacts.service";
+import {addressTypeValues, phoneTypeValues} from "../contacts/contact.model";
 
 @Component({
   templateUrl: './edit-contact.component.html',
   styleUrls: ['./edit-contact.component.css']
 })
 export class EditContactComponent implements OnInit {
+  phoneTypes = phoneTypeValues;
+  addressTypes = addressTypeValues;
+
   contactForm = this.fb.nonNullable.group({
     id: '',
+    personal: false,
     firstName: '',
     lastName: '',
     dateOfBirth: <Date | null>null,
@@ -24,7 +29,8 @@ export class EditContactComponent implements OnInit {
       state: '',
       postalCode: '',
       addressType: '',
-    })
+    }),
+    notes: '',
   });
 
   constructor(private route: ActivatedRoute,
@@ -55,4 +61,5 @@ export class EditContactComponent implements OnInit {
       next: () => this.router.navigate(['/contacts'])
     })
   }
+
 }
