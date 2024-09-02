@@ -21,10 +21,7 @@ export class EditContactComponent implements OnInit {
     lastName: '',
     dateOfBirth: <Date | null>null,
     favoritesRanking: <number | null>null,
-    phone: this.fb.nonNullable.group({
-      phoneNumber: '',
-      phoneType: '',
-    }),
+    phones: this.fb.array([this.createPhoneGroup()]),
     address: this.fb.nonNullable.group({
       streetAddress: ['', Validators.required],
       city: ['', Validators.required],
@@ -53,8 +50,23 @@ export class EditContactComponent implements OnInit {
         // const names = {firstName: contact.firstName, lastName: contact.lastName};
         // this.contactForm.patchValue(names);
 
+        for (let i = 1; i < contact.phones.length; i++) {
+          this.addPhone();
+        }
+
         this.contactForm.setValue(contact);
       })
+  }
+
+  public createPhoneGroup() {
+    return this.fb.nonNullable.group({
+      phoneNumber: '',
+      phoneType: '',
+    })
+  }
+
+  public addPhone() {
+    this.contactForm.controls.phones.push(this.createPhoneGroup());
   }
 
   get firstName() {
